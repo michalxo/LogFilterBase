@@ -29,36 +29,35 @@ public class ConvertorStarter {
 
     private static final StringBuilder classpath = new StringBuilder();
 
-    private static final String filesToCompile = "/home/mtoth/skola/dp/LogFilterBase/forceAssertions/java7/Example.java";
+    // Just this one file for now
+    private static final String filesToCompile = PROJECT_PATH
+            + Example.class.getCanonicalName().replace(".", File.separator) + ".java";
 //    private static final String fileToCompile = "/home/mtoth/Desktop/CodeAnalyzer.java";
-    private static final String errorOutput = "/home/mtoth/Desktop/errors.txt";
-    private static final String GENERATED_DIR = "/home/mtoth/Desktop/generated-sources";
+    private static final String errorOutput = System.getProperty("user.home") + File.separator + "/errors.txt";
+    private static final String GENERATED_DIR = System.getProperty("user.home") + File.separator + "generated-sources";
 
-    
     public static void main(String[] args) {
-//        checkCreateDir(GENERATED_DIR);
-//        compileProcessor();
+        try {
+            checkCreateDir(GENERATED_DIR);
+            compileProcessor();
 
 // change java source file
-        classpath.append(File.pathSeparator);
-        classpath.delete(0, classpath.length());
-        System.out.println("Classpath=" + classpath);        
-
-//        classpath.append(JAVA_CLASS_PATH);
-//        classpath.append("/cz/muni/fi/ngmon/logchanger/");
-        classpath.append(GENERATED_DIR);
+            classpath.delete(0, classpath.length());
+            classpath.append(GENERATED_DIR);
 //        classpath.append(File.pathSeparator).append(".").append(File.pathSeparator).append(JAVA_CLASS_PATH);
-        LOG.log(Level.INFO, "CLASSPATH = {0}", classpath);
+            LOG.log(Level.INFO, "CLASSPATH = {0}", classpath);
 
-        Iterable<String> options = Arrays.asList("-cp", classpath.toString(),
-                "-processor", ForceAssertions.class.getCanonicalName(), "-printsource", "-d", GENERATED_DIR);
+            Iterable<String> options = Arrays.asList("-cp", classpath.toString(),
+                    "-processor", ForceAssertions.class.getCanonicalName(), "-printsource", "-d", GENERATED_DIR);
 
-        for (String s : options) {
-            System.out.print(s + " ");
+            for (String s : options) {
+                System.out.print(s + " ");
+            }
+            System.out.println();
+            compile(options, Arrays.asList(filesToCompile));
+        } catch (IOException e) {
+            LOG.severe(e.toString());
         }
-        System.out.println();
-        compile(options, Arrays.asList(filesToCompile));
-
     }
 
     //
@@ -106,13 +105,15 @@ public class ConvertorStarter {
         return false;
     }
 
-    public static Boolean checkCreateDir(String path) {
+    public static Boolean checkCreateDir(String path) throws IOException {
         File directory = new File(path);
 
         if (directory.exists()) {
             if (directory.isDirectory()) {
 //              remove everything in directory
-                LOG.severe("Remove content of following directory " + directory.toString());
+                if (directory.list().length != 0)
+                    throw new IOException("Remove content of following directory " + directory.toString());
+//                LOG.severe("Remove content of following directory " + directory.toString());
             }
         } else {
             directory.mkdir();
