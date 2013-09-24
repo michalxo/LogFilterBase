@@ -1,6 +1,0 @@
-{
-    "action": { "type": "double" },
-    "level": { "type": "string" },
-    "localId": { "type": "long" },
-    "initTime": { "type": "string"}
-}

@@ -1,9 +1,0 @@
-{
-	"description": "Heimdall JSON Event payload",
-	"type":"object",
-	"properties": {
-		"var1" : { "type": "[int|long|double|float|string]", "required": true },
-		"var2" : { "type": "[int|long|double|float|string]"},
-		"var3" : { "type": "[int|long|double|float|string]"}
-	}
-}
