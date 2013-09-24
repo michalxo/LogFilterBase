@@ -18,6 +18,19 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
+                    
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>            
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>cz.muni.fi.ngmon.logchanger.ConvertorStarter</mainClass>
+                        </manifest>
+                    </archive>                        
                 </configuration>
             </plugin>
         </plugins>
@@ -26,35 +39,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-<!--    <profiles>
-        <profile>
-            <id>default-tools.jar</id>
-            <activation>
-                <property>
-                    <name>java.vendor</name>
-                    <value>Sun Microsystems Inc.</value>
-                </property>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>com.sun</groupId>
-                    <artifactId>tools</artifactId>
-                    <version>1.4.2</version>
-                    <scope>system</scope>
-                    <systemPath>${java.home}/../lib/tools.jar</systemPath>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>-->
-
-
     <dependencies>
         <dependency>
             <groupId>com.sun</groupId>
             <artifactId>tools</artifactId>
-            <version>1.4.2</version>
+            <version>1.7.0</version>
             <scope>system</scope>
-            <systemPath>${java.home}/../lib/tools.jar</systemPath>            
+            <systemPath>${java.home}/../lib/tools.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

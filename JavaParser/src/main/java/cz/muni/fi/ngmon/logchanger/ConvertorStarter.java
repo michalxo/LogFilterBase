@@ -45,15 +45,21 @@ public class ConvertorStarter {
             classpath.delete(0, classpath.length());
             classpath.append(GENERATED_DIR);
 //        classpath.append(File.pathSeparator).append(".").append(File.pathSeparator).append(JAVA_CLASS_PATH);
-            LOG.log(Level.INFO, "CLASSPATH = {0}", classpath);
+//            LOG.log(Level.INFO, "CLASSPATH = {0}", classpath);
 
             Iterable<String> options = Arrays.asList("-cp", classpath.toString(),
                     "-processor", ForceAssertions.class.getCanonicalName(), "-printsource", "-d", GENERATED_DIR);
 
+            StringBuilder javacCommand = new StringBuilder();
+            javacCommand.append("javac ");
             for (String s : options) {
-                System.out.print(s + " ");
+                javacCommand.append((s + " "));
             }
-            System.out.println();
+            javacCommand.append((filesToCompile + "\n"));
+            
+            LOG.info(javacCommand.toString());
+            
+            
             compile(options, Arrays.asList(filesToCompile));
         } catch (IOException e) {
             LOG.severe(e.toString());
